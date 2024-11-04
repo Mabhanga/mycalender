@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google Calendar Integration with Bryntum</title>
+  
+  <!-- Bryntum Calendar CSS -->
+  <link rel="stylesheet" href="https://cdn.bryntum.com/calendar/latest/calendar.stockholm.css">
+  
+  <!-- Google Identity Services for Google Sign-In -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  
+  <!-- Your main CSS file (optional, if you have custom styles) -->
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <h1>Google Calendar Integration with Bryntum Calendar</h1>
+
+  <!-- Sign in with Google Button -->
+  <div id="google-signin-button" style="margin-bottom: 20px;"></div>
+
+  <!-- Bryntum Calendar Container -->
+  <div id="calendar"></div>
+
+  <!-- Bryntum Calendar and Project Scripts -->
+  <script src="https://cdn.bryntum.com/calendar/latest/calendar.umd.js"></script>
+  <script src="./main.js"></script>
+
+  <script>
+    // Function to handle the Google Sign-In response
+    function handleCredentialResponse(response) {
+      const token = response.credential;
+      console.log("User signed in, token:", token);
+
+      // Call the function from main.js to fetch and display Google Calendar events
+      fetchGoogleCalendarEvents(token);
+    }
+
+    // Render Google Sign-In button and initialize the Google Identity Services SDK
+    window.onload = () => {
+      google.accounts.id.initialize({
+        client_id: "249214954039-0v22l1bo4fk4ts031tld4ua6cfdbtpj9.apps.googleusercontent.com",
+        callback: handleCredentialResponse
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("google-signin-button"),
+        { theme: "outline", size: "large" }
+      );
+    };
+  </script>
+
+</body>
+</html>
